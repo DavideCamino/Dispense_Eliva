@@ -1,0 +1,77 @@
+\chapter{Introduzione}
+\section{Cos'è un immagine?}
+\subsection{Definizioni}
+Un'immagine $f(x,y)$ è una rappresentazione su un piano 2D di:
+\begin{itemize}
+	\item una scena o un fenomeno fisico misurabile;
+	\item un modello definito analiticamente.
+\end{itemize}
+A seconda di come si ottiene l'immagine si parla di:
+\begin{description}
+	\item[Immagini visibili] quelle che possono essere viste dall'occhio umano o sono catturate da un sistema ottico;
+	\item[Immagini non direttamente visibili] generate a partire da una distribuzione di grandezze fisiche come ad esempio una mappa di temperature;
+	\item[Immagini definite da modelli analitici] ottenute a partire da funzioni continue o discrete, come la sintesi di modelli 3D.
+\end{description}
+Le immagini possono essere analogiche, caratterizzate da funzioni continue $f(x,y)$ che definiscono il colore e l'intensità luminosa oppure \textbf{digitali}, nelle quali la funzione di prima viene approssimata due volte:
+\begin{itemize}
+	\item campionando: il piano $XY$ viene diviso con una griglia e consideriamo un solo valore di colore per ogni cella della griglia (la chiameremo pixel)
+	\item quantizzando: dovendo immagazzinare l'informazione del pixel in un calcolatore non abbiamo a disposizione infinita precisione, dovremo perciò troncare il valore
+\end{itemize}
+\subsection{Ottenere un'immagine}
+Dal punto di vista tecnico per ottenere un'immagine campionata e quantizzata con una fotocamera si fa arrivare con il sistema ottico la luce al sensore, il sensore è diviso in celle che permettono di ottenere ciascuna un pixel (campionamento o sampling), ogni cella traduce l'intensità luminosa che la colpisce in un segnale elettrico che viene tradotto in un valore tipicamente intero tra 0 e 255 (quantizzazione). Per ottenere L'immagine a colori si sovrappone al sensore una griglia colorata che permetta a ogni cella del sensore di assorbire solo la luce di un certo colore (RGB)
+\subsection{Quantizzazione}
+il valore di ogni pixel deve essere espresso attraverso un certo numero finito di bit, più bit usiamo più saremo in grado di definire colori differenti, il numero di bit è quindi detto \textbf{color depth} o \textbf{profondità di colore} e si indica con l'acronimo \textbf{bpp} cioè bit per pixel. Se un immagine è in bianco e nero significa che per ogni pixel salviamo un solo bit, l'immagine è detta \textbf{binarizzata}
+
+Normalmente usiamo 8 bit per esprimere un valore, da questo segue che un'immagine in scala di grigi avrà 256 livelli di grigio. Per le immagini a colori dividiamo il valore del pixel nelle componenti RGB detti anche \textbf{canali}, destiniamo a ogni canale 8 bit ottenendo 16 milioni di colori circa.
+
+\section{Operazioni con le immagini}
+Possiamo definire delle operazioni sulle immagini che prendano in input una o due immagini e restituiscano uno scalare, un vettore o un'altra immagine
+\subsection{Operazioni pixel a pixel}
+\subsubsection{Operazioni logiche}
+Si applicano a due immagini binarizzate aventi la stessa dimensione e si ottiene una terza immagine in cui ogni pixel è il risultato dell'operazione logica sui pixel corrispondenti nelle immagini iniziali.
+\subsubsection{Operazioni aritmetiche}
+Possiamo applicarle a due immagini di qualsiasi tipo purché con la stessa dimensione. Il risultato è un'immagine in cui ogni pixel è ottenuto applicando una certa funzione aritmetica ai pixel di partenza corrispondenti. Quando si lavora con queste operazioni si deve tenere conto della possibilità di sforare il range di rappresentazione dei pixel, il risultato dovrà essere quindi opportunamente clippato o scalato.
+\subsubsection{Trasformazioni affini}
+Queste operazioni permettono di traslare, scalare, ruotare e fare shear di un'immagine, facendo in modo che le linee dritte rimangano tali. Queste operazioni si implementano con \textbf{matrici} di \textbf{trasformazione} $T$.
+\begin{equation}
+	\begin{bmatrix}
+		x'\\
+		y'\\
+		1
+	\end{bmatrix}
+	= 
+	\begin{bmatrix}
+		c_{11} & c_{12} & c_{13} \\
+		c_{21} & c_{22} & c_{23} \\
+		0 & 0 & 1 \\
+	\end{bmatrix}
+	\times
+	\begin{bmatrix}
+		x\\
+		y\\
+		1
+	\end{bmatrix}
+	= T \times
+	\begin{bmatrix}
+		x'\\
+		y'\\
+		1
+	\end{bmatrix}
+\end{equation}
+\subsection{Operazioni su più pixel}
+Le operazioni che coinvolgono più pixel di una certa immagine sono tipicamente implementate mediante \textbf{filtri} queste operazioni sono importantissime e ne parleremo più approfonditamente in seguito (\ref{asd}).
+
+\section{Dimensione dell'immagine}\label{sec:image_dimension}
+Quando si parla di dimensione si intende il numero di pixel che costituiscono l'immagine, dato che le immagini sono tipicamente rettangolari e i pixel sono organizzati in una griglia la dimensione dell'immagine si ottiene moltiplicando la base per l'altezza.
+
+Una volta ottenuta la dimensione è facile calcolare lo \textbf{spazio occupato} dall'immagine, se usiamo 8 bit per canale e abbiamo 3 canali basta moltiplicare per 3 la dimensione dell'immagine per avere la sua occcupazione in byte. Si vede che questa, anche per immagini non grandissime è molto elevata, nel tempo quindi si sono sviluppati efficientissimi algoritmi di compressione delle immagini; ne parleremo più avanti (\ref{asd}).
+\subsection{Risoluzione}
+La risoluzione ci da un'idea di quanto possa essere gradevole guardare un'immagine senza vedere la grana dei pixel. Per questa ragione è una funzione della dimensione e dell'area fisica su cui l'immagine viene stampata o proiettata. In particolare la risoluzione si ccalcola in \textbf{punti per pollice} (dpi) e vale la seguente relazione:
+\begin{equation}
+	dimensione = area \cdot risoluzione
+\end{equation}
+
+\section{Campionamento}
+Quando acquisiamo un'immagine reale stiamo discretizzando un fenomeno fisico, dalla teoria dell'informazione conosciamo il \textbf{teorema di Nyquist-Shannon} che afferma che se vogliamo campionare correttamente dobbiamo usare una frequenza di campionamento almeno pari al doppio della frequenza massima presente nel segnale che vogliamo acquisire.
+
+Nelle immagini le alte frequenze corrispondo a bordi di colori molto diversi ravvicinati fra loro, mentre la frequenza di campionamento è data da quanto è fitta la griglia di celle del nostro sensore. Quando acquisiamo un immagine non possiamo fare come nell'audio e usare dei filtri passa basso per eliminare le frequenze troppo alte, perché questo equivarrebbe a sfocare l'immagine. Possono pertanto presentarsi degli artefatti dovuti all'errato campionamento di determinati pattern; questi sono detti \textbf{Moiré}.

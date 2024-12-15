@@ -1,0 +1,12 @@
+\chapter{Low Level Vision}
+La low level vision si basa su algoritmi che ricalcano proprietà matematiche per estrarre informazioni utili dalle immagini. Questa branca della computer vision raramente fa uso di intelligenza artificiale e si adatta bene a contesti semplici e controllati come la visione industriale.
+
+La low level vision ha come obbiettivo quello di estrarre delle regioni di interessa dalle immagini, evidenziare bordi e punti di interesse di un'immagine.
+
+\section{Segmentation}
+Vogliamo suddividere l'immagine in aree di interesse, cioè creare una maschera che ritagli delle aree dell'immagine semanticamente differenti. La maschera più semplice a cui possiamo pensare ha solo 2 livelli e permette di ottenere un'immagine binarizzata in cui distinguiamo la ragione di interesse dallo sfondo.
+
+\subsection{Thresholding}
+È uno dei metodi più intuitivi per fare segmentazione di un'immagine, è molto utilizzato date le se buone proprietà e la pochissima complessità computazionale. Il thresholding permette di dividere i pixel in regioni basandosi sulle proprietà dei pixel stessi.
+
+La forma più semplice di thresholding consiste nel decidere una soglia $T$ ed etichettare tutti i pixel con intensità maggiore di $T$ in un modo e quelli con intensità minore di $T$ in un altro; questo approccio è detto \textbf{thresholding globale}. Se la soglia cambia parliamo invece di thresholding variabile, questo si divide in \textbf{thresholding locale} se $T$ dipende dalle caratteristicche del vicinato del pixel in esame, oppure \textbf{thresholding adattativo} se $T$ dipende dalla posizione nell'immagine

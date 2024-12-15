@@ -1,0 +1,31 @@
+\chapter{Image Processing}
+In questo capitolo vediamo brevemente i principali tipi di processing di immagini e tipo per tipo quali sono gli obiettivi della manipolazione.
+
+\section{Image enhancement}
+Questo tipo di processing ha lo scopo di migliorare l'immagine in modo \textbf{soggettivo} e mirato alle elaborazioni future, è quindi un trattamento a monte prima di utilizzare l'immagine per ulteriori manipolazioni. Elaborazioni tipiche di enhancement sono la riduzione del rumore e miglioramento del contrasto. 
+
+L'image enhancement può anche essere l'unico step di processing e in questo caso ha lo scopo di rendere più gradevole l'immagine a un osservatore umano.
+
+L'aspetto che caratterizza questa elaborazione è quella di essere application-driven, nel senso che la manipolazione è pensata ad hoc per il passo successivo a cui andrà incontro l'immagine (che sia quello di essere osservata oppure di essere ulteriormente elaborata).
+
+\section{Image restoration}
+Questa elaborazione ha lo scopo di aumentare la qualità dell'immagine in modo \textbf{oggettivo}, andando ad esempio a recuperare delle informazioni perse o correggendo errori fatti durante il processo di acquisizione. 
+
+Per operare questo recupero di informazioni è necessario avere una conoscenza del dominio specifico e della funzione di degradazione che ha comportato la perdita di informazioni.
+
+\section{Compressione}
+Come accennato nel paragrafo sulla dimensione delle immagini (\ref{sec:image_dimension}) queste possono arrivare a occupare notevole spazio in memoria, la compressione si pone allora l'obbiettivo di ridurre lo spazio occupato dalle immagini, sia per risparmiare memoria sia per ridurre i tempi di trasmissione. Distinguiamo tra due tipi di compressione:
+\subsection{Compressione lossless}
+In cui l'immagine decompressa è esattamente identica all'immagine originale. Con questo tipo non si riescono a raggiungere livelli di compressione molto elevati, ha comunque senso in particolari applicazioni in cui è importante mantenere tutti i dati (ambito medico a esempio).
+\subsection{Compressione lossy}
+L'immagine decompressa è diversa dall'immagine originale, tipicamente siamo interessati a ottenere dei difetti impercettibili per l'occhio umano. Tecniche di compressione lossy si possono basare su
+\begin{itemize}
+	\item \textbf{sublsampling}: ridurre il numero di pixel memorizzati, per fare questo bisogna fare attenzione a non introdurre artefatti come le moiré;
+	\item \textbf{ridurre la quantizzazione}: per ogni pixel riduciamo la profondità colore.
+\end{itemize}
+Queste tecniche si possono anche mischiare e rendere adattative, ad esempio usando una grana fine e una buona profondità colore per i soggetti a fuoco e riducendo la qualità per le parti non in evidenza.
+
+\section{Segmentation}
+Consiste nel partizionare un'immagine estraendo quelle parti alle quali siamo interessati. Anche questa elaborazione può essere fatta a monte di altre che ad esempio tentano di classificare le parti segmentate o cercano difetti nei componenti prodotti a cui è stata scattata una foto.
+
+Dopo la segmentazione quindi è importante riuscire a rappresentare le parti segmentate e associare ad esse delle caratteristiche alle quali siamo interessati, ad esempio l'area di queste parti, il perimetro, la presenza di difetti, curvature ecc...
