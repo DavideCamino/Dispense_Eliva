@@ -277,7 +277,10 @@ Dove:
 		-1&4&-1\\
 		0&-1&0
 	\end{smallmatrix} \Big]\Big)$ 
-	\item $\gamma$ è un parametro da settare per fare in modo che il filtro riesca effettivamente a isolare il rumore. Siccome $\gamma$ è proprio il parametro più delicato da stimare questo può essere ottenuto \textbf{iterativamente}.
+	\item $\gamma$ è un parametro che si trova \textbf{iterativamente} in modo da rispettare:
+	\begin{equation}
+		||g(x,y) - h(x,y)*\hat{f}(x,y)||^2 = ||\eta(x,y)||^2
+	\end{equation}
 \end{itemize}
 
 \subsection{Filtro con media geometrica}
